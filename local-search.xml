@@ -8,7 +8,7 @@
     <link href="/2023/12/03/blog/info/"/>
     <url>/2023/12/03/blog/info/</url>
     
-    <content type="html"><![CDATA[<p><a href="https://hexo.io/zh-cn/docs/">hexo</a></p><p><a href="https://hexo.fluid-dev.com/docs/">主题fluid</a></p><p><a href="https://blog.csdn.net/ayuayue/article/details/109198493">本地图片显示的问题</a></p><h1 id="hexo常用命令"><a href="#hexo常用命令" class="headerlink" title="hexo常用命令"></a>hexo常用命令</h1><p>本地更新服务</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s<br></code></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<p><a href="https://hexo.io/zh-cn/docs/">hexo</a></p><p><a href="https://hexo.fluid-dev.com/docs/">主题fluid</a></p><p><a href="https://blog.csdn.net/ayuayue/article/details/109198493">本地图片显示的问题</a></p><h1 id="hexo常用命令"><a href="#hexo常用命令" class="headerlink" title="hexo常用命令"></a>hexo常用命令</h1><h2 id="本地更新服务"><a href="#本地更新服务" class="headerlink" title="本地更新服务"></a>本地更新服务</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">hexo clean &amp;&amp; hexo g &amp;&amp; hexo s<br></code></pre></td></tr></table></figure><h2 id="推送到git"><a href="#推送到git" class="headerlink" title="推送到git"></a>推送到git</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">hexo clean &amp;&amp; hexo deploy<br></code></pre></td></tr></table></figure>]]></content>
     
     
     
