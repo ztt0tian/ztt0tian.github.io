@@ -16,23 +16,24 @@
   <meta name="author" content="unfamous-TT">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
-<meta property="og:title" content="page">
-<meta property="og:url" content="https://ztt0tian.github.io/2023/12/03/plan/week/index.html">
+    <meta name="description" content="集合映射1234567891011121314&lt;resultMap id&#x3D;&quot;UserAndSeatresultmap&quot; type&#x3D;&quot;User&quot;&gt;        &lt;id property&#x3D;&quot;id&quot; column&#x3D;&quot;id&quot; &#x2F;&gt;        &lt;result property&#x3D;&quot;se">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mybatis的一些小点">
+<meta property="og:url" content="https://ztt0tian.github.io/2024/01/03/mybatis/%E4%B8%80%E4%BA%9B%E5%B0%8F%E7%82%B9/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="集合映射1234567891011121314&lt;resultMap id&#x3D;&quot;UserAndSeatresultmap&quot; type&#x3D;&quot;User&quot;&gt;        &lt;id property&#x3D;&quot;id&quot; column&#x3D;&quot;id&quot; &#x2F;&gt;        &lt;result property&#x3D;&quot;se">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://ztt0tian.github.io/2023/12/03/plan/week/image-20231203232412624.png">
-<meta property="article:published_time" content="2023-12-03T15:22:28.000Z">
-<meta property="article:modified_time" content="2023-12-03T15:24:18.143Z">
+<meta property="article:published_time" content="2024-01-03T02:24:22.000Z">
+<meta property="article:modified_time" content="2024-01-03T13:01:00.217Z">
 <meta property="article:author" content="unfamous-TT">
+<meta property="article:tag" content="mybatis">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://ztt0tian.github.io/2023/12/03/plan/week/image-20231203232412624.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>page - Hexo</title>
+  <title>mybatis的一些小点 - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -225,7 +226,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle">page</span>
+            <span id="subtitle">mybatis的一些小点</span>
           
         </div>
 
@@ -236,8 +237,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-12-03 23:22" pubdate>
-          2023年12月3日 晚上
+        <time datetime="2024-01-03 10:24" pubdate>
+          2024年1月3日 上午
         </time>
       </span>
     
@@ -248,7 +249,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          759 字
         
       </span>
     
@@ -259,7 +260,7 @@
         
         
         
-          1 分钟
+          7 分钟
         
       </span>
     
@@ -309,12 +310,13 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">page</h1>
+            <h1 id="seo-header">mybatis的一些小点</h1>
             
             
               <div class="markdown-body">
                 
-                <p><img src="/2023/12/03/plan/week/image-20231203232412624.png" srcset="/img/loading.gif" lazyload alt="image-20231203232412624"></p>
+                <h1 id="集合映射"><a href="#集合映射" class="headerlink" title="集合映射"></a>集合映射</h1><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">resultMap</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;UserAndSeatresultmap&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;User&quot;</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">id</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;id&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;id&quot;</span> /&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;seat_id&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;seat_id&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;name&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;name&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">collection</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;seats&quot;</span> <span class="hljs-attr">ofType</span>=<span class="hljs-string">&quot;Seat&quot;</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">id</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;seatid&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;seatid&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;userid&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;userid&quot;</span>/&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">result</span> <span class="hljs-attr">property</span>=<span class="hljs-string">&quot;position&quot;</span> <span class="hljs-attr">column</span>=<span class="hljs-string">&quot;position&quot;</span>/&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">collection</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">resultMap</span>&gt;</span><br> <br><span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;getSeatByUserId&quot;</span>  <span class="hljs-attr">resultMap</span>=<span class="hljs-string">&quot;UserAndSeatresultmap&quot;</span>&gt;</span><br>        select * from user, seat where user.id = #&#123;id&#125; and user.id=seat.userid<br><span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span>  <br></code></pre></td></tr></table></figure>
+
 
                 
               </div>
@@ -324,6 +326,13 @@
               <div class="post-metas my-3">
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/mybatis/" class="print-no-link">#mybatis</a>
+      
+    </div>
+  
 </div>
 
 
@@ -332,8 +341,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>page</div>
-      <div>https://ztt0tian.github.io/2023/12/03/plan/week/</div>
+      <div>mybatis的一些小点</div>
+      <div>https://ztt0tian.github.io/2024/01/03/mybatis/一些小点/</div>
     </div>
     <div class="license-meta">
       
@@ -345,13 +354,13 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年12月3日</div>
+          <div>2024年1月3日</div>
         </div>
       
       
         <div class="license-meta-item license-meta-date">
           <div>更新于</div>
-          <div>2023年12月3日</div>
+          <div>2024年1月3日</div>
         </div>
       
       
@@ -381,6 +390,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2024/01/14/plan/week/" title="计划">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">计划</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
