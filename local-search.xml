@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title></title>
+    <link href="/2026/04/15/vibe-coding/OKX/"/>
+    <url>/2026/04/15/vibe-coding/OKX/</url>
+    
+    <content type="html"><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>我现在准备做一个基于OKX的量化交易平台，我自身是一名java语言的后端开发，我希望你做出来的程序清晰易懂。</p><h1 id="功能模块"><a href="#功能模块" class="headerlink" title="功能模块"></a>功能模块</h1><h2 id="数据采集模块-data-collector微服务"><a href="#数据采集模块-data-collector微服务" class="headerlink" title="数据采集模块(data-collector微服务)"></a>数据采集模块(data-collector微服务)</h2><ul><li><p>采集所有USDT本位永续合约的历史k线数据，只需要周k、月k维度的数据，同时要计算周k和月k的boll(2,20)指标，这些数据均需要保存至数据库中</p></li><li><p>利用websocket采集实时行情数据，并依赖历史数据计算出实时boll指标</p></li><li><p>当前币对价格触及boll的上轨或者下轨时需要出发告警通知消息，推送至mq的告警消息队列中，消息中需要记录：boll指标信息、币种价格信息、币种价格相对触发告警的boll上轨或下轨的相对偏移百分比、以及boll上轨和下轨的百分比差距</p></li><li><p>需要具备历史数据校验，若有数据缺漏可以自动修正补充</p></li><li><p>需要具备针对新增合约的数据采集</p></li></ul><h2 id="告警处理模块（alart-handle微服务）"><a href="#告警处理模块（alart-handle微服务）" class="headerlink" title="告警处理模块（alart-handle微服务）"></a>告警处理模块（alart-handle微服务）</h2><ul><li><p>负责监听告警通知消息，并通过钉钉推送消息（同一合约同一天同维度的同种告警一天最多推送一次钉钉通知消息）</p></li><li><p>可能存在需要推送计划下单通知消息，这依赖具体的计划下单策略，需满足以下条件</p><p>（1）触及boll下轨</p></li></ul><h2 id="下单及仓位管理模块（order-position-manager微服务）"><a href="#下单及仓位管理模块（order-position-manager微服务）" class="headerlink" title="下单及仓位管理模块（order-position-manager微服务）"></a>下单及仓位管理模块（order-position-manager微服务）</h2><ul><li>负责监听并处理计划下单通知消息</li><li>实时同步当前账号的持仓信息至数据库中</li><li>下单限制</li></ul><p>​（1）下单USDT为账号可用余额的10%</p><p>​（2）下单倍数：非ETH、BTC的合约均设置为5倍，ETH和BTC的合约设置为10倍，下单价格即为合约的实时价格</p><p>​（3）下单仓位模式：逐仓，一定不要全仓</p><p>​（4）若已有持仓或者当天已经有同币种合约下单的话，则放弃下单，并推送钉钉消息告知放弃下单原因</p><p>​（5）不设止损位置，仅设置止盈位置为boll的上轨价格</p><p>​（6）非ETH、BTC的合约实时价格需要低于boll的下轨15%才能自动下单</p><ul><li><p>下单成功需要推送钉钉消息</p></li><li><p>针对仓位实行 “动态止盈止损”。</p><p>策略规则如下：</p><p>1.检查仓位是否有设止盈止损</p><p>​如果没有设置止损位则需要设置止初始止损位为开仓价*50%（初始止损相对百分比可配置）</p><p>​如果没有设置止盈位则需要设置止初始止盈位为开仓价*100%（初始止盈相对百分比可配置）</p><p>2.动态设置止盈止损时的限制</p><p>​仓位做多时，调整后的止损位不能低于调整前的止损位，调整后的止盈位不能低于调整前的止盈位；</p><p>​仓位做空时，调整后的止损位不能高于调整前的止损位，调整后的止盈位不能高于调整前的止盈位；</p><p>​仅当当前收益率超过20%（动态调整止盈止损启动收益率阈值可配置）时即开始动态设置止盈止损。</p><p>3.动态设置止盈止损的规则</p><p>​设当前持仓收益率为x，且x&gt;20% </p><p>​仓位做多时，动态调整后的止损位置价格为P1，此时对应的收益率为Min(100%，x&#x2F;4)，动态调整后的止盈位置价格为P2，此时对应的收益率为x*1.5。</p><p>​仓位做空时，动态调整后的止损位置价格为P1，此时对应的收益率为Min(100%，x&#x2F;4)，动态调整后的止盈位置价格为P2，此时对应的收益率为x*1.5。</p><ol start="4"><li>如果说更新后的止损位低于当前止损位，则放弃调整止损位；如果说更新后的止盈位低于当前止盈位，则放弃调整止盈位。</li><li>每次发生调整止盈或止损位置的调整，你都需要通过钉钉推送告知。</li></ol></li><li><p>所有的下单记录均需持久化，并且实时维护收益率情况，直至其平仓维护最终的收益情况</p></li><li><p>每12小时推送一次我的仓位情况并推送钉钉消息</p></li></ul><h2 id="前端模块"><a href="#前端模块" class="headerlink" title="前端模块"></a>前端模块</h2><ul><li>最近告警数据</li><li>下单数据展示</li><li>仓位数据展示</li><li>钉钉消息推送记录展示</li></ul><h1 id="技术栈"><a href="#技术栈" class="headerlink" title="技术栈"></a>技术栈</h1><p>语言：java</p><p>数据库：mysql</p><p>缓存：redis</p><p>消息队列：rabbitmq</p><p>ORM: mybatis</p><p>部署：docker、docker-compose</p><p>配置：Apollo</p><p>框架：SpringBoot SpringCloud</p><p>注册中心：consul</p><p>网关：SpringGateway</p><p>前端：vue.js</p><h1 id="默认配置"><a href="#默认配置" class="headerlink" title="默认配置"></a>默认配置</h1><p>钉钉推送webhook地址：</p><p><a href="https://oapi.dingtalk.com/robot/send?access_token=xxx">https://oapi.dingtalk.com/robot/send?access_token=xxx</a></p><p>钉钉推送消息必须带上前缀：[OKX告警]</p><p>OKX-API的相关密钥信息：</p><p>API key：0d2b3ab0-e49c-4174-ba99-9f97fdfffd35</p><p>密钥：XXXX</p><h1 id="使用文档"><a href="#使用文档" class="headerlink" title="使用文档"></a>使用文档</h1><ul><li>需要再readme中详细说明系统的使用文档</li><li>给出默认的Apollo配置</li><li>各种地址访问url以及可能存在的用户名和密码</li><li>提供一个可以一键部署的脚本</li></ul>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>vibe-coding</title>
     <link href="/2026/04/14/vibe-coding/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E6%B1%87%E6%80%BB/"/>
     <url>/2026/04/14/vibe-coding/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E6%B1%87%E6%80%BB/</url>
@@ -24,23 +37,10 @@
   
   <entry>
     <title></title>
-    <link href="/2026/04/14/%E6%8F%90%E7%A4%BA%E8%AF%8D/Untitled/"/>
-    <url>/2026/04/14/%E6%8F%90%E7%A4%BA%E8%AF%8D/Untitled/</url>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title></title>
     <link href="/2026/04/14/%E6%8F%90%E7%A4%BA%E8%AF%8D/%E6%88%91%E6%83%B3/"/>
     <url>/2026/04/14/%E6%8F%90%E7%A4%BA%E8%AF%8D/%E6%88%91%E6%83%B3/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<p>我现在想用vibe-coding生成一个量化项目，这个量化项目着眼于收集A股历史行情数据和实时行情数据，其中历史行情数据用于回测验证策略的收益率，我的策略主要用到日k维度下的ema7、ema14、ema30、ema60、ema90，侧重在ema7从底部上穿ema14时做多；此外利用boll指标（周k、月k维度）在价格触及下轨时我会考虑要不要做多，尤其在震荡行情中。现在我需要你帮我生生成一份完整的提示词模板，项目架构语言你自定义即可。</p>]]></content>
     
     
     
